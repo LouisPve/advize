@@ -1,25 +1,16 @@
 import { Request, Response } from "express";
 import * as fundService from "./service";
 
-function getFunds(req: Request, res: Response) {
-  try {
-    // Assuming fundService.getFunds() returns a promise
-    // If it returns a synchronous value, you can remove the try-catch block
-    const funds = fundService.getFunds();
-    res.json(funds);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+function getFunds(_: Request, res: Response) {
+  const funds = fundService.getFunds();
+  res.json(funds);
 }
 
-function getFundsByISIN(req: Request, res: Response) {
+function getFundsByISIN(req: Request<{ id: string }>, res: Response) {
   const fundId = req.params.id;
-  try {
-    const fund = fundService.getFundsByISIN(fundId);
-    res.json(fund);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
+
+  const fund = fundService.getFundsByISIN(fundId);
+  res.json(fund);
 }
 
 export { getFunds, getFundsByISIN };

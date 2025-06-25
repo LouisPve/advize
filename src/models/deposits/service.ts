@@ -1,4 +1,4 @@
-import { BadRequestError } from "src/errors/BadRequestError";
+import { BadRequestError } from "../../errors/BadRequestError";
 import { FundType } from "../funds/types";
 import {
   Deposit,
@@ -6,7 +6,7 @@ import {
   PortfolioDeposit,
   ProductDeposit,
 } from "./types";
-import { NotFoundError } from "src/errors/NotFoundError";
+import { NotFoundError } from "../../errors/NotFoundError";
 import productsData from "../../data/produits.json";
 import portfoliosData from "../../data/portefeuilles.json";
 import { Product } from "../products/types";
@@ -35,12 +35,12 @@ function postDeposit(deposit: PortfolioDeposit | ProductDeposit): Deposit {
 
 function _handlePortfolioDeposit(deposit: PortfolioDeposit): Deposit {
   const portfolio = typedPortfoliosData.find(
-    (p) => p.id === deposit.portfolioId
+    (p) => p.id === deposit.portfolioId,
   );
 
   if (!portfolio) {
     throw new NotFoundError(
-      `Portfolio with id ${deposit.portfolioId} not found`
+      `Portfolio with id ${deposit.portfolioId} not found`,
     );
   }
 
@@ -57,17 +57,17 @@ function _handlePortfolioDeposit(deposit: PortfolioDeposit): Deposit {
 
 function validateProductAllocation(
   product: Product,
-  allocation: { type: FundType; amount: number }[]
+  allocation: { type: FundType; amount: number }[],
 ) {
   const currentAlloc = getProductCurrentRepartition(product.id);
   const totalAllocAmount = allocation.reduce(
     (sum, alloc) => sum + alloc.amount,
-    0
+    0,
   );
 
   // Vérification min/max par type
   for (const [type, config] of Object.entries(product.configuration)) {
-    const alloc = allocation.find((a) => a.type === type)?.amount;
+    const alloc = allocation.find((a) => a.type === (type as FundType))?.amount;
     const currentTypeAllocation =
       currentAlloc.allocations.get(type as FundType) || 0;
     const percent =
@@ -77,12 +77,12 @@ function validateProductAllocation(
 
     if (percent < config.min) {
       throw new BadRequestError(
-        `Le type ${type} doit être alloué à au moins ${config.min}%.`
+        `Le type ${type} doit être alloué à au moins ${config.min}%.`,
       );
     }
     if (percent > config.max) {
       throw new BadRequestError(
-        `Le type ${type} ne doit pas dépasser ${config.max}%.`
+        `Le type ${type} ne doit pas dépasser ${config.max}%.`,
       );
     }
   }
@@ -95,7 +95,7 @@ function getProductCurrentRepartition(productId: number): {
   // Filter all deposits for the given product
   const productDeposits = deposits.filter(
     (deposit) =>
-      deposit.type === DepositType.PRODUCT && deposit.productId === productId
+      deposit.type === DepositType.PRODUCT && deposit.productId === productId,
   );
 
   // Aggregate allocations by FundType
@@ -104,7 +104,7 @@ function getProductCurrentRepartition(productId: number): {
   for (const deposit of productDeposits) {
     if (deposit.allocation) {
       for (const alloc of deposit.allocation) {
-        const type = alloc.type as FundType;
+        const type = alloc.type;
         allocationMap.set(type, (allocationMap.get(type) || 0) + alloc.amount);
       }
     }
@@ -113,7 +113,7 @@ function getProductCurrentRepartition(productId: number): {
   // Compute total amount for normalization
   const total = Array.from(allocationMap.values()).reduce(
     (sum, val) => sum + val,
-    0
+    0,
   );
 
   // Return repartition as percentage if total > 0, else empty array
@@ -142,7 +142,7 @@ function _handleProductDeposit(deposit: ProductDeposit): Deposit {
     deposit.allocation.map((a) => ({
       type: a.type as FundType,
       amount: a.amount,
-    }))
+    })),
   );
 
   const newDeposit: Deposit = {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { getDeposits, getDepositById, postDeposit } from "./controller";
-import { validateSchema } from "src/middleware/paramsValidator";
+import { validateSchema } from "../../middleware/paramsValidator";
 import Joi from "joi";
 import { DepositType } from "./types";
 import { FundType } from "../funds/types";
@@ -23,14 +23,14 @@ function getDepositsValidator(req: Request, res: Response, next: NextFunction) {
       body: Joi.forbidden(), // No body allowed
       params: Joi.forbidden(), // No params allowed
       query: Joi.forbidden(), // No query params allowed
-    })
+    }),
   );
 }
 
 function getDepositsByIdValidator(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   validateSchema(
     req,
@@ -42,14 +42,14 @@ function getDepositsByIdValidator(
         id: Joi.number().required(),
       }).required(),
       query: Joi.forbidden(),
-    })
+    }),
   );
 }
 
 function postDepositsValidator(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   validateSchema(
     req,
@@ -71,7 +71,7 @@ function postDepositsValidator(
                         .valid(...Object.values(FundType))
                         .required(),
                       amount: Joi.number().positive().required(),
-                    })
+                    }),
                   )
                   .required(),
               }).required(),
@@ -89,6 +89,6 @@ function postDepositsValidator(
         .required(),
       params: Joi.forbidden(),
       query: Joi.forbidden(),
-    })
+    }),
   );
 }

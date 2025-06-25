@@ -13,7 +13,7 @@ app.use(express.json());
 setRoutes(app);
 
 // expressV5 syntax for handling 404 errors
-app.all("/*splat", (req: Request, res: Response) => {
+app.all("/*splat", (_: Request, res: Response) => {
   res.status(404).json({ error: "Not found" });
 });
 

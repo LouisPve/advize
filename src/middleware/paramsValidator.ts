@@ -6,7 +6,7 @@ export function validateSchema(
   req: Request,
   res: Response<any, Record<string, any>>,
   next: NextFunction,
-  schema: Joi.ObjectSchema
+  schema: Joi.ObjectSchema,
 ) {
   const { error } = schema.validate(pick(req, "body", "query", "params"), {
     abortEarly: false,
@@ -14,10 +14,10 @@ export function validateSchema(
   if (error) {
     console.error("Validation error:", JSON.stringify(error.details, null, 2));
     res.status(400).json({
-      error: error.details
+      error: ((error.details as Array<{ message: string }> | undefined) ?? [])
         .map((d) => d?.message)
         .join(", ")
-        .replaceAll('"', "'"),
+        .replace(/"/g, "'"),
     });
   } else {
     next();

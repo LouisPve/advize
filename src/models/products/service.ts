@@ -4,7 +4,8 @@ import { Product } from "./types";
 const typedData = data as Product[];
 
 function getProducts(): Product[] {
-  return typedData;
+  //return typedData;
+  throw new Error("Products not found");
 }
 
 function getProductBydId(id: number): Product {

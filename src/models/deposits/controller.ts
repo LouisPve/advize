@@ -1,34 +1,22 @@
-import { Deposit, PortfolioDeposit, ProductDeposit } from "./types";
+import { PortfolioDeposit, ProductDeposit } from "./types";
 import * as depositService from "./service";
 import { Request, Response } from "express";
 
-function getDeposits(req: Request, res: Response) {
-  try {
-    const deposits = depositService.getDeposits();
-    res.json(deposits);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+function getDeposits(_: Request, res: Response) {
+  const deposits = depositService.getDeposits();
+  res.json(deposits);
 }
 
-function getDepositById(req: Request, res: Response) {
+function getDepositById(req: Request<{ id: string }>, res: Response) {
   const depositId = parseInt(req.params.id, 10);
-  try {
-    const fund = depositService.getDepositById(depositId);
-    res.json(fund);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
+  const fund = depositService.getDepositById(depositId);
+  res.json(fund);
 }
 
 function postDeposit(req: Request, res: Response) {
-  const deposit: PortfolioDeposit | ProductDeposit = req.body;
-  try {
-    const newDeposit = depositService.postDeposit(deposit);
-    res.json(newDeposit);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  const deposit = req.body as PortfolioDeposit | ProductDeposit;
+  const newDeposit = depositService.postDeposit(deposit);
+  res.json(newDeposit);
 }
 
 export { getDeposits, getDepositById, postDeposit };

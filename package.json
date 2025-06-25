@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "install-clean": "rm -rf node_modules && rm package-lock.json && npm install",
     "build": "esbuild ./src/app.ts --bundle --platform=node --outfile=dist/app.js",
     "start": "node --env-file=.env ./dist/app.js ",
     "dev": "nodemon --watch ./src --exec \"npm run build && npm run start\"",

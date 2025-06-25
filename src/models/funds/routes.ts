@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { getFunds, getFundsByISIN } from "./controller";
-import { validateSchema } from "src/middleware/paramsValidator";
+import { validateSchema } from "../../middleware/paramsValidator";
 import Joi from "joi";
 
 export function setRoutes(baserouter: Router) {
@@ -20,14 +20,14 @@ function getFundsValidator(req: Request, res: Response, next: NextFunction) {
       body: Joi.forbidden(), // No body allowed
       params: Joi.forbidden(), // No params allowed
       query: Joi.forbidden(), // No query params allowed
-    })
+    }),
   );
 }
 
 function getFundsByIdValidator(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   validateSchema(
     req,
@@ -41,6 +41,6 @@ function getFundsByIdValidator(
           .required(),
       }).required(),
       query: Joi.forbidden(),
-    })
+    }),
   );
 }

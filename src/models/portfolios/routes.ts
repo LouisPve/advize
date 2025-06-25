@@ -2,7 +2,7 @@ import { NextFunction, Router, Request, Response } from "express";
 import { getPortfolioById, getPortfolios } from "./controller";
 
 import Joi from "joi";
-import { validateSchema } from "src/middleware/paramsValidator";
+import { validateSchema } from "../../middleware/paramsValidator";
 
 export function setRoutes(baserouter: Router) {
   const router = Router();
@@ -15,7 +15,7 @@ export function setRoutes(baserouter: Router) {
 function getPortfoliosValidator(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   validateSchema(
     req,
@@ -25,14 +25,14 @@ function getPortfoliosValidator(
       body: Joi.forbidden(), // No body allowed
       params: Joi.forbidden(), // No params allowed
       query: Joi.forbidden(), // No query params allowed
-    })
+    }),
   );
 }
 
 function getPortfolioByIdValidator(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   validateSchema(
     req,
@@ -45,6 +45,6 @@ function getPortfolioByIdValidator(
           .required(),
       }).required(),
       query: Joi.forbidden(),
-    })
+    }),
   );
 }
