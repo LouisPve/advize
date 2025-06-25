@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "nom": "Portefeuille Équilibré",
+    "allocations": [
+      {
+        "fondId": 1,
+        "pourcentage": 40
+      },
+      {
+        "fondId": 2,
+        "pourcentage": 40
+      },
+      {
+        "fondId": 3,
+        "pourcentage": 20
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nom": "Portefeuille Dynamique",
+    "allocations": [
+      {
+        "fondId": 1,
+        "pourcentage": 50
+      },
+      {
+        "fondId": 4,
+        "pourcentage": 50
+      }
+    ]
+  }
+]

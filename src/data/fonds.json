@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "isin": "FR000000001",
+    "nom": "Fonds Actions Europe",
+    "type": "action"
+  },
+  {
+    "id": 2,
+    "isin": "FR000000002",
+    "nom": "Fonds Obligations Monde",
+    "type": "obligation"
+  },
+  {
+    "id": 3,
+    "isin": "FR000000003",
+    "nom": "Fonds Monétaire Court Terme",
+    "type": "monetaire"
+  },
+  {
+    "id": 4,
+    "isin": "FR000000004",
+    "nom": "Fonds Actions US",
+    "type": "action"
+  }
+]
