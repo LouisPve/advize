@@ -41,7 +41,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": { "type": "string", "example": "FR000000001" }
           }
         ],
         "responses": {
@@ -85,7 +85,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": { "type": "integer", "example": 1 }
           }
         ],
         "responses": {
@@ -129,7 +129,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": { "type": "integer", "example": 1 }
           }
         ],
         "responses": {
@@ -196,7 +196,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": { "type": "integer", "example": 1 }
           }
         ],
         "responses": {
