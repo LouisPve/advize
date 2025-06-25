@@ -12,9 +12,13 @@ export function validateSchema(
     abortEarly: false,
   });
   if (error) {
-    res
-      .status(400)
-      .json({ error: error.details.map((d) => d.message).join(", ") });
+    console.error("Validation error:", JSON.stringify(error.details, null, 2));
+    res.status(400).json({
+      error: error.details
+        .map((d) => d?.message)
+        .join(", ")
+        .replaceAll('"', "'"),
+    });
   } else {
     next();
   }

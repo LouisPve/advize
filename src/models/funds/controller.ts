@@ -12,14 +12,14 @@ function getFunds(req: Request, res: Response) {
   }
 }
 
-function getFundsById(req: Request, res: Response) {
+function getFundsByISIN(req: Request, res: Response) {
   const fundId = req.params.id;
   try {
-    const fund = fundService.getFundsById(fundId);
+    const fund = fundService.getFundsByISIN(fundId);
     res.json(fund);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 }
 
-export { getFunds, getFundsById };
+export { getFunds, getFundsByISIN };

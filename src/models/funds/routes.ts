@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { getFunds, getFundsById } from "./controller";
+import { getFunds, getFundsByISIN } from "./controller";
 import { validateSchema } from "src/middleware/paramsValidator";
 import Joi from "joi";
 
 export function setRoutes(baserouter: Router) {
   const router = Router();
   router.get("/", getFundsValidator, getFunds);
-  router.get("/:id", getFundsByIdValidator, getFundsById);
+  router.get("/:id", getFundsByIdValidator, getFundsByISIN);
 
   baserouter.use("/funds", router);
 }

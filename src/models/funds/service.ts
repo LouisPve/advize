@@ -10,7 +10,7 @@ function getFunds(): Fund[] {
   return typedData;
 }
 
-function getFundsById(isin: string) {
+function getFundsByISIN(isin: string) {
   const fund = typedData.find((f) => f.isin === isin);
   if (!fund) {
     throw new Error(`Fund with ISIN ${isin} not found`);
@@ -18,4 +18,12 @@ function getFundsById(isin: string) {
   return fund;
 }
 
-export { getFunds, getFundsById };
+function getFundsById(id: number) {
+  const fund = typedData.find((f) => f.id === id);
+  if (!fund) {
+    throw new Error(`Fund with id ${id} not found`);
+  }
+  return fund;
+}
+
+export { getFunds, getFundsById, getFundsByISIN };
