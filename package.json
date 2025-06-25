@@ -5,7 +5,9 @@
   "scripts": {
     "build": "esbuild ./src/app.ts --bundle --platform=node --outfile=dist/app.js",
     "start": "node --env-file=.env ./dist/app.js ",
-    "dev": "nodemon --watch ./src --exec \"npm run build && npm run start\""
+    "dev": "nodemon --watch ./src --exec \"npm run build && npm run start\"",
+    "build-image": "docker build -t advize-app .",
+    "run-image": "docker run -p 3000:3000 advize-app"
   },
   "repository": {
     "type": "git",
