@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AdVize API",
+    "version": "1.0.0",
+    "description": "API documentation for AdVize platform."
+  },
+  "servers": [{ "url": "/api" }],
+  "tags": [
+    { "name": "Funds", "description": "Operations related to funds" },
+    { "name": "Portfolios", "description": "Operations related to portfolios" },
+    { "name": "Products", "description": "Operations related to products" },
+    { "name": "Deposits", "description": "Operations related to deposits" }
+  ],
+  "paths": {
+    "/funds": {
+      "get": {
+        "tags": ["Funds"],
+        "summary": "Get all funds",
+        "responses": {
+          "200": {
+            "description": "List of funds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Fund" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/funds/{id}": {
+      "get": {
+        "tags": ["Funds"],
+        "summary": "Get fund by ISIN",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fund",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Fund" }
+              }
+            }
+          },
+          "404": { "description": "Fund not found" }
+        }
+      }
+    },
+    "/portfolios": {
+      "get": {
+        "tags": ["Portfolios"],
+        "summary": "Get all portfolios",
+        "responses": {
+          "200": {
+            "description": "List of portfolios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Portfolio" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolios/{id}": {
+      "get": {
+        "tags": ["Portfolios"],
+        "summary": "Get portfolio by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Portfolio" }
+              }
+            }
+          },
+          "404": { "description": "Portfolio not found" }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products",
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Product" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Product" }
+              }
+            }
+          },
+          "404": { "description": "Product not found" }
+        }
+      }
+    },
+    "/deposits": {
+      "get": {
+        "tags": ["Deposits"],
+        "summary": "Get all deposits",
+        "responses": {
+          "200": {
+            "description": "List of deposits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Deposit" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Deposits"],
+        "summary": "Create a deposit",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Deposit" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Deposit created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Deposit" }
+              }
+            }
+          },
+          "400": { "description": "Invalid input" }
+        }
+      }
+    },
+    "/deposits/{id}": {
+      "get": {
+        "tags": ["Deposits"],
+        "summary": "Get deposit by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deposit",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Deposit" }
+              }
+            }
+          },
+          "404": { "description": "Deposit not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FundType": {
+        "type": "string",
+        "enum": ["action", "obligation", "monetaire"],
+        "example": "action"
+      },
+      "MinMaxRange": {
+        "type": "object",
+        "properties": {
+          "min": { "type": "number", "example": 30 },
+          "max": { "type": "number", "example": 70 }
+        },
+        "required": ["min", "max"]
+      },
+      "Allocation": {
+        "type": "object",
+        "properties": {
+          "type": { "$ref": "#/components/schemas/FundType" },
+          "amount": { "type": "number", "example": 1000 }
+        },
+        "required": ["type", "amount"],
+        "example": { "type": "action", "amount": 1000 }
+      },
+      "PortfolioAllocation": {
+        "type": "object",
+        "properties": {
+          "fundId": { "type": "integer", "example": 1 },
+          "percentage": { "type": "number", "example": 40 }
+        },
+        "required": ["fundId", "percentage"],
+        "example": { "fundId": 1, "percentage": 40 }
+      },
+      "Fund": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "isin": { "type": "string", "example": "FR000000001" },
+          "name": { "type": "string", "example": "Fonds Actions Europe" },
+          "type": { "$ref": "#/components/schemas/FundType" }
+        },
+        "required": ["id", "isin", "name", "type"],
+        "example": {
+          "id": 1,
+          "isin": "FR000000001",
+          "name": "Fonds Actions Europe",
+          "type": "action"
+        }
+      },
+      "Portfolio": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Portefeuille Équilibré" },
+          "allocations": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PortfolioAllocation" }
+          }
+        },
+        "required": ["id", "name", "allocations"],
+        "example": {
+          "id": 1,
+          "name": "Portefeuille Équilibré",
+          "allocations": [
+            { "fundId": 1, "percentage": 40 },
+            { "fundId": 2, "percentage": 40 },
+            { "fundId": 3, "percentage": 20 }
+          ]
+        }
+      },
+      "ProductConfiguration": {
+        "type": "object",
+        "properties": {
+          "action": { "$ref": "#/components/schemas/MinMaxRange" },
+          "obligation": { "$ref": "#/components/schemas/MinMaxRange" },
+          "monetaire": { "$ref": "#/components/schemas/MinMaxRange" }
+        },
+        "required": ["action", "obligation", "monetaire"],
+        "additionalProperties": false,
+        "example": {
+          "action": { "min": 30, "max": 70 },
+          "obligation": { "min": 20, "max": 50 },
+          "monetaire": { "min": 0, "max": 20 }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Produit Retraite" },
+          "configuration": {
+            "$ref": "#/components/schemas/ProductConfiguration"
+          }
+        },
+        "required": ["id", "name", "configuration"],
+        "example": {
+          "id": 1,
+          "name": "Produit Retraite",
+          "configuration": {
+            "action": { "min": 30, "max": 70 },
+            "obligation": { "min": 20, "max": 50 },
+            "monetaire": { "min": 0, "max": 20 }
+          }
+        }
+      },
+      "PortfolioDeposit": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "portfolio",
+            "enum": ["portfolio"]
+          },
+          "portfolioId": { "type": "integer", "example": 1 },
+          "amount": { "type": "number", "example": 1000 },
+          "date": { "type": "integer", "example": 1719273600 }
+        },
+        "required": ["type", "portfolioId", "amount", "date"],
+        "example": {
+          "type": "portfolio",
+          "portfolioId": 1,
+          "amount": 1000,
+          "date": 1719273600
+        }
+      },
+      "ProductDeposit": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "product",
+            "enum": ["product"]
+          },
+          "productId": { "type": "integer", "example": 1 },
+          "allocation": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Allocation" }
+          },
+          "date": { "type": "integer", "example": 1719273600 }
+        },
+        "required": ["type", "productId", "allocation", "date"],
+        "example": {
+          "type": "product",
+          "productId": 1,
+          "allocation": [
+            { "type": "action", "amount": 500 },
+            { "type": "obligation", "amount": 300 },
+            { "type": "monetaire", "amount": 200 }
+          ],
+          "date": 1719273600
+        }
+      },
+      "Deposit": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/PortfolioDeposit" },
+          { "$ref": "#/components/schemas/ProductDeposit" }
+        ]
+      }
+    }
+  }
+}
