@@ -1,15 +1,12 @@
-import data from "../../data/produits.json";
 import { Product } from "./types";
-
-const typedData = data as Product[];
+import * as productsRepositories from "../../repositories/productsRepositories";
 
 function getProducts(): Product[] {
-  //return typedData;
-  throw new Error("Products not found");
+  return productsRepositories.getAllProducts();
 }
 
 function getProductBydId(id: number): Product {
-  const fund = typedData.find((f) => f.id === id);
+  const fund = productsRepositories.getProductById(id);
   if (!fund) {
     throw new Error(`Product with ID ${id} not found`);
   }

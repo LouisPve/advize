@@ -1,15 +1,13 @@
-import portfolioData from "../../data/portefeuilles.json";
 import { Portfolio, PortfolioWithFunds } from "./types";
 import { getFundsById } from "../funds/service";
-
-const typedPortfolioData = portfolioData as Portfolio[];
+import * as portfolioRepositories from "../../repositories/portfoliosRepositories";
 
 function getPortfolios(): PortfolioWithFunds[] {
-  return typedPortfolioData.map((p) => _mapPortfolio(p));
+  return portfolioRepositories.getAllPortfolios().map((p) => _mapPortfolio(p));
 }
 
 function getPortfolioById(id: number): PortfolioWithFunds {
-  const fund = typedPortfolioData.find((f) => f.id === id);
+  const fund = portfolioRepositories.getPortfolioById(id);
   if (!fund) {
     throw new Error(`Portfolio with ID ${id} not found`);
   }

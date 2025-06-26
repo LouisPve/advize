@@ -7,21 +7,23 @@ import {
   ProductDeposit,
 } from "./types";
 import { NotFoundError } from "../../errors/NotFoundError";
-import productsData from "../../data/produits.json";
-import portfoliosData from "../../data/portefeuilles.json";
-import { Product } from "../products/types";
-import { Portfolio } from "../portfolios/types";
 
-const deposits: Deposit[] = [];
-const typedProductsData = productsData as Product[];
-const typedPortfoliosData = portfoliosData as Portfolio[];
+import { Product } from "../products/types";
+
+import * as productsRepositories from "../../repositories/productsRepositories";
+import * as portfoliosRepositories from "../../repositories/portfoliosRepositories";
+import * as depositsRepositories from "../../repositories/depositsRepositories";
 
 function getDeposits(): Deposit[] {
-  return deposits;
+  return depositsRepositories.getAllDeposits();
 }
 
 function getDepositById(depositId: number): Deposit | undefined {
-  return deposits.find((deposit) => deposit.id === depositId);
+  const deposit = depositsRepositories.getDepositById(depositId);
+  if (!deposit) {
+    throw new NotFoundError(`Deposit with id ${depositId} not found`);
+  }
+  return deposit;
 }
 
 function postDeposit(deposit: PortfolioDeposit | ProductDeposit): Deposit {
@@ -34,9 +36,9 @@ function postDeposit(deposit: PortfolioDeposit | ProductDeposit): Deposit {
 }
 
 function _handlePortfolioDeposit(deposit: PortfolioDeposit): Deposit {
-  const portfolio = typedPortfoliosData.find(
-    (p) => p.id === deposit.portfolioId,
-  );
+  const portfolio = portfoliosRepositories
+    .getAllPortfolios()
+    .find((p) => p.id === deposit.portfolioId);
 
   if (!portfolio) {
     throw new NotFoundError(
@@ -44,15 +46,13 @@ function _handlePortfolioDeposit(deposit: PortfolioDeposit): Deposit {
     );
   }
 
-  const newDeposit: Deposit = {
-    id: deposits.length + 1,
+  const newDeposit = {
     portfolioId: deposit.portfolioId,
     amount: deposit.amount,
     date: Date.now(),
     type: DepositType.PORTFOLIO,
-  };
-  deposits.push(newDeposit);
-  return newDeposit;
+  } as Deposit;
+  return depositsRepositories.createDeposit(newDeposit);
 }
 
 function validateProductAllocation(
@@ -93,10 +93,12 @@ function getProductCurrentRepartition(productId: number): {
   allocations: Map<FundType, number>;
 } {
   // Filter all deposits for the given product
-  const productDeposits = deposits.filter(
-    (deposit) =>
-      deposit.type === DepositType.PRODUCT && deposit.productId === productId,
-  );
+  const productDeposits = depositsRepositories
+    .getAllDeposits()
+    .filter(
+      (deposit) =>
+        deposit.type === DepositType.PRODUCT && deposit.productId === productId,
+    );
 
   // Aggregate allocations by FundType
   const allocationMap = new Map<FundType, number>();
@@ -122,7 +124,6 @@ function getProductCurrentRepartition(productId: number): {
   return {
     total,
     allocations: allocationMap,
-    //percentage: Math.round((amount / total) * 100), // Add percentage field
   };
 }
 
@@ -131,7 +132,9 @@ function _handleProductDeposit(deposit: ProductDeposit): Deposit {
     throw new BadRequestError("Product deposit must have an allocation");
   }
 
-  const product = typedProductsData.find((p) => p.id === deposit.productId);
+  const product = productsRepositories
+    .getAllProducts()
+    .find((p) => p.id === deposit.productId);
   if (!product) {
     throw new NotFoundError(`Product with id ${deposit.productId} not found`);
   }
@@ -145,8 +148,7 @@ function _handleProductDeposit(deposit: ProductDeposit): Deposit {
     })),
   );
 
-  const newDeposit: Deposit = {
-    id: deposits.length + 1,
+  const newDeposit = {
     productId: deposit.productId,
     amount: deposit.allocation.reduce((sum, alloc) => sum + alloc.amount, 0),
     allocation: deposit.allocation.map((alloc) => ({
@@ -155,9 +157,9 @@ function _handleProductDeposit(deposit: ProductDeposit): Deposit {
     })),
     date: Date.now(),
     type: DepositType.PRODUCT,
-  };
-  deposits.push(newDeposit);
-  return newDeposit;
+  } as Deposit;
+
+  return depositsRepositories.createDeposit(newDeposit);
 }
 
 export { getDeposits, getDepositById, postDeposit };

@@ -1,17 +1,12 @@
-import data from "../../data/fonds.json";
 import { Fund } from "./types";
-
-// Type the imported data as an array of Fund objects
-// This assumes that the JSON data structure matches the Fund type definition
-// This line could be removed if we use an ORM and fetch data from a database
-const typedData = data as Fund[];
+import * as fundsRepositories from "../../repositories/fundsRepositories";
 
 function getFunds(): Fund[] {
-  return typedData;
+  return fundsRepositories.getAllFunds();
 }
 
 function getFundsByISIN(isin: string) {
-  const fund = typedData.find((f) => f.isin === isin);
+  const fund = fundsRepositories.getFundByIsin(isin);
   if (!fund) {
     throw new Error(`Fund with ISIN ${isin} not found`);
   }
@@ -19,7 +14,7 @@ function getFundsByISIN(isin: string) {
 }
 
 function getFundsById(id: number) {
-  const fund = typedData.find((f) => f.id === id);
+  const fund = fundsRepositories.getFundById(id);
   if (!fund) {
     throw new Error(`Fund with id ${id} not found`);
   }
