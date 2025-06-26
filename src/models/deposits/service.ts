@@ -32,6 +32,8 @@ function postDeposit(deposit: PortfolioDeposit | ProductDeposit): Deposit {
   } else if (deposit.type === "product") {
     return _handleProductDeposit(deposit);
   }
+  // If deposit type is not recognized, throw an error
+  // This should never happen if types are used correctly
   throw new Error("Invalid deposit type");
 }
 
