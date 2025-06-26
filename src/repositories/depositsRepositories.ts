@@ -16,10 +16,7 @@ export function getDepositById(id: number): Deposit | undefined {
 }
 
 export function createDeposit(deposit: Deposit): Deposit {
-  // Assign a new ID to the deposit
-  deposit.id = typedData.length + 1;
-  // Add the new deposit to the array
-  typedData.push(deposit);
-  // Return the newly created deposit
-  return deposit;
+  const newDeposit = { id: typedData.length + 1, ...deposit };
+  typedData.push(newDeposit);
+  return newDeposit;
 }
