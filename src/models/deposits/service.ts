@@ -112,13 +112,12 @@ function getProductCurrentRepartition(productId: number): {
     }
   }
 
-  // Compute total amount for normalization
   const total = Array.from(allocationMap.values()).reduce(
     (sum, val) => sum + val,
     0,
   );
 
-  // Return repartition as percentage if total > 0, else empty array
+  // Return repartition if total > 0, else empty array
   if (total === 0) return { total, allocations: new Map() };
 
   return {

@@ -1,6 +1,7 @@
 import { Portfolio, PortfolioWithFunds } from "./types";
 import { getFundsById } from "../funds/service";
 import * as portfolioRepositories from "../../repositories/portfoliosRepositories";
+import { NotFoundError } from "../../errors/NotFoundError";
 
 function getPortfolios(): PortfolioWithFunds[] {
   return portfolioRepositories.getAllPortfolios().map((p) => _mapPortfolio(p));
@@ -9,7 +10,7 @@ function getPortfolios(): PortfolioWithFunds[] {
 function getPortfolioById(id: number): PortfolioWithFunds {
   const fund = portfolioRepositories.getPortfolioById(id);
   if (!fund) {
-    throw new Error(`Portfolio with ID ${id} not found`);
+    throw new NotFoundError(`Portfolio with ID ${id} not found`);
   }
   return _mapPortfolio(fund);
 }

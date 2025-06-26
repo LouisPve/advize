@@ -2,20 +2,20 @@ import { Fund } from "../funds/types";
 
 export interface Portfolio {
   id: number;
-  nom: string;
+  name: string;
   allocations: Allocation[];
 }
 
 export interface Allocation {
   fondId: number;
-  pourcentage: number;
+  percentage: number;
 }
 
 export interface PortfolioWithFunds {
   id: number;
-  nom: string;
+  name: string;
   allocations: {
-    pourcentage: number;
-    fund?: Fund; // Optional, will be populated later
+    percentage: number;
+    fund: Fund;
   }[];
 }

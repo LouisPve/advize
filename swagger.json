@@ -241,10 +241,12 @@
         "type": "object",
         "properties": {
           "fundId": { "type": "integer", "example": 1 },
-          "percentage": { "type": "number", "example": 40 }
+          "percentage": { "type": "number", "example": 40 },
+          "fund": {
+            "$ref": "#/components/schemas/Fund"
+          }
         },
-        "required": ["fundId", "percentage"],
-        "example": { "fundId": 1, "percentage": 40 }
+        "required": ["fundId", "percentage", "fund"]
       },
       "Fund": {
         "type": "object",
@@ -272,16 +274,7 @@
             "items": { "$ref": "#/components/schemas/PortfolioAllocation" }
           }
         },
-        "required": ["id", "name", "allocations"],
-        "example": {
-          "id": 1,
-          "name": "Portefeuille Équilibré",
-          "allocations": [
-            { "fundId": 1, "percentage": 40 },
-            { "fundId": 2, "percentage": 40 },
-            { "fundId": 3, "percentage": 20 }
-          ]
-        }
+        "required": ["id", "name", "allocations"]
       },
       "ProductConfiguration": {
         "type": "object",

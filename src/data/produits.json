@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "nom": "Produit Retraite",
+    "name": "Produit Retraite",
     "configuration": {
       "action": { "min": 30, "max": 70 },
       "obligation": { "min": 20, "max": 50 },
@@ -10,7 +10,7 @@
   },
   {
     "id": 2,
-    "nom": "Produit Sécurisé",
+    "name": "Produit Sécurisé",
     "configuration": {
       "action": { "min": 0, "max": 20 },
       "obligation": { "min": 50, "max": 80 },

@@ -1,5 +1,6 @@
 import { Fund } from "./types";
 import * as fundsRepositories from "../../repositories/fundsRepositories";
+import { NotFoundError } from "../../errors/NotFoundError";
 
 function getFunds(): Fund[] {
   return fundsRepositories.getAllFunds();
@@ -8,7 +9,7 @@ function getFunds(): Fund[] {
 function getFundsByISIN(isin: string) {
   const fund = fundsRepositories.getFundByIsin(isin);
   if (!fund) {
-    throw new Error(`Fund with ISIN ${isin} not found`);
+    throw new NotFoundError(`Fund with ISIN ${isin} not found`);
   }
   return fund;
 }
@@ -16,7 +17,7 @@ function getFundsByISIN(isin: string) {
 function getFundsById(id: number) {
   const fund = fundsRepositories.getFundById(id);
   if (!fund) {
-    throw new Error(`Fund with id ${id} not found`);
+    throw new NotFoundError(`Fund with id ${id} not found`);
   }
   return fund;
 }

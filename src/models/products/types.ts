@@ -2,7 +2,7 @@ import { FundType } from "../funds/types";
 
 export interface Product {
   id: number;
-  nom: string;
+  name: string;
   configuration: {
     [K in FundType]: { min: number; max: number };
   };

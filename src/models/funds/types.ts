@@ -1,7 +1,7 @@
 export interface Fund {
   id: number;
   isin: string;
-  nom: string;
+  name: string;
   type: FundType;
 }
 

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as productService from "./service";
 
 function getProducts(_: Request, res: Response) {
-  // Assuming portfolios data is fetched from a service or database
   const products = productService.getProducts();
   res.json(products);
 }
