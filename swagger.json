@@ -156,7 +156,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/Deposit" }
+                  "items": { "$ref": "#/components/schemas/DepositResponse" }
                 }
               }
             }
@@ -179,7 +179,7 @@
             "description": "Deposit created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Deposit" }
+                "schema": { "$ref": "#/components/schemas/DepositResponse" }
               }
             }
           },
@@ -204,7 +204,7 @@
             "description": "Deposit",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Deposit" }
+                "schema": { "$ref": "#/components/schemas/DepositResponse" }
               }
             }
           },
@@ -320,15 +320,13 @@
             "enum": ["portfolio"]
           },
           "portfolioId": { "type": "integer", "example": 1 },
-          "amount": { "type": "number", "example": 1000 },
-          "date": { "type": "integer", "example": 1719273600 }
+          "amount": { "type": "number", "example": 1000 }
         },
-        "required": ["type", "portfolioId", "amount", "date"],
+        "required": ["type", "portfolioId", "amount"],
         "example": {
           "type": "portfolio",
           "portfolioId": 1,
-          "amount": 1000,
-          "date": 1719273600
+          "amount": 1000
         }
       },
       "ProductDeposit": {
@@ -343,10 +341,9 @@
           "allocation": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/Allocation" }
-          },
-          "date": { "type": "integer", "example": 1719273600 }
+          }
         },
-        "required": ["type", "productId", "allocation", "date"],
+        "required": ["type", "productId", "allocation"],
         "example": {
           "type": "product",
           "productId": 1,
@@ -362,6 +359,63 @@
         "oneOf": [
           { "$ref": "#/components/schemas/PortfolioDeposit" },
           { "$ref": "#/components/schemas/ProductDeposit" }
+        ]
+      },
+      "PortfolioDepositResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "example": "portfolio",
+            "enum": ["portfolio"]
+          },
+          "portfolioId": { "type": "integer", "example": 1 },
+          "amount": { "type": "number", "example": 1000 },
+          "date": { "type": "integer", "example": 1719273600 }
+        },
+        "required": ["id", "type", "portfolioId", "amount", "date"],
+        "example": {
+          "id": 1,
+          "type": "portfolio",
+          "portfolioId": 1,
+          "amount": 1000,
+          "date": 1719273600
+        }
+      },
+      "ProductDepositResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "example": "product",
+            "enum": ["product"]
+          },
+          "productId": { "type": "integer", "example": 1 },
+          "allocation": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Allocation" }
+          },
+          "date": { "type": "integer", "example": 1719273600 }
+        },
+        "required": ["id", "type", "productId", "allocation", "date"],
+        "example": {
+          "id": 2,
+          "type": "product",
+          "productId": 1,
+          "allocation": [
+            { "type": "action", "amount": 500 },
+            { "type": "obligation", "amount": 300 },
+            { "type": "monetaire", "amount": 200 }
+          ],
+          "date": 1719273600
+        }
+      },
+      "DepositResponse": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/PortfolioDepositResponse" },
+          { "$ref": "#/components/schemas/ProductDepositResponse" }
         ]
       }
     }
