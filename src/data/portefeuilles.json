@@ -4,15 +4,15 @@
     "name": "Portefeuille Équilibré",
     "allocations": [
       {
-        "fondId": 1,
+        "fundId": 1,
         "percentage": 40
       },
       {
-        "fondId": 2,
+        "fundId": 2,
         "percentage": 40
       },
       {
-        "fondId": 3,
+        "fundId": 3,
         "percentage": 20
       }
     ]
@@ -22,11 +22,11 @@
     "name": "Portefeuille Dynamique",
     "allocations": [
       {
-        "fondId": 1,
+        "fundId": 1,
         "percentage": 50
       },
       {
-        "fondId": 4,
+        "fundId": 4,
         "percentage": 50
       }
     ]

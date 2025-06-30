@@ -7,7 +7,7 @@ export interface Portfolio {
 }
 
 export interface Allocation {
-  fondId: number;
+  fundId: number;
   percentage: number;
 }
 

@@ -20,7 +20,7 @@ function _mapPortfolio(portfolio: Portfolio): PortfolioWithFunds {
     ...portfolio,
     allocations: portfolio.allocations.map((allocation) => ({
       ...allocation,
-      fund: getFundsById(allocation.fondId),
+      fund: getFundsById(allocation.fundId),
     })),
   };
 }

@@ -24,8 +24,8 @@ describe("PortfolioService", () => {
         id: 1,
         name: "Test",
         allocations: [
-          { fondId: 1, percentage: 50 },
-          { fondId: 2, percentage: 50 },
+          { fundId: 1, percentage: 50 },
+          { fundId: 2, percentage: 50 },
         ],
       };
       (repository.getPortfolioById as jest.Mock).mockImplementation(
@@ -51,12 +51,12 @@ describe("PortfolioService", () => {
         allocations: [
           {
             percentage: 50,
-            fondId: 1,
+            fundId: 1,
             fund: { id: 1, name: "Fund 1", type: "Equity", isin: "FR1" },
           },
           {
             percentage: 50,
-            fondId: 2,
+            fundId: 2,
             fund: { id: 2, name: "Fund 2", type: "Equity", isin: "FR2" },
           },
         ],
