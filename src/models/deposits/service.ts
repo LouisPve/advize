@@ -51,7 +51,7 @@ function _handlePortfolioDeposit(deposit: PortfolioDeposit): Deposit {
   const newDeposit = {
     portfolioId: deposit.portfolioId,
     amount: deposit.amount,
-    date: Date.now(),
+    date: convertMsTimestampToSeconds(Date.now()),
     type: DepositType.PORTFOLIO,
   } as Deposit;
   return depositsRepositories.createDeposit(newDeposit);
@@ -156,11 +156,15 @@ function _handleProductDeposit(deposit: ProductDeposit): Deposit {
       type: alloc.type as FundType,
       amount: alloc.amount,
     })),
-    date: Date.now(),
+    date: convertMsTimestampToSeconds(Date.now()),
     type: DepositType.PRODUCT,
   } as Deposit;
 
   return depositsRepositories.createDeposit(newDeposit);
+}
+
+function convertMsTimestampToSeconds(timestamp: number): number {
+  return Math.floor(timestamp / 1000);
 }
 
 export { getDeposits, getDepositById, postDeposit };
