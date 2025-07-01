@@ -393,17 +393,19 @@
             "enum": ["product"]
           },
           "productId": { "type": "integer", "example": 1 },
+          "amount": { "type": "number" },
           "allocation": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/Allocation" }
           },
           "date": { "type": "integer", "example": 1719273600 }
         },
-        "required": ["id", "type", "productId", "allocation", "date"],
+        "required": ["id", "type", "productId", "amount", "allocation", "date"],
         "example": {
           "id": 2,
           "type": "product",
           "productId": 1,
+          "amount": 1000,
           "allocation": [
             { "type": "action", "amount": 500 },
             { "type": "obligation", "amount": 300 },
