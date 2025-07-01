@@ -6,6 +6,12 @@ const app = express();
 app.use(express.json());
 const PORT = process.env["PORT"] || 3000;
 
+// Set up CORS headers
+app.use((_: Request, res: Response, next: () => void) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST");
+  next();
+});
 // Middleware
 app.use(express.json());
 
