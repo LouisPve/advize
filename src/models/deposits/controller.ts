@@ -16,7 +16,7 @@ function getDepositById(req: Request<{ id: string }>, res: Response) {
 function postDeposit(req: Request, res: Response) {
   const deposit = req.body as PortfolioDeposit | ProductDeposit;
   const newDeposit = depositService.postDeposit(deposit);
-  res.json(newDeposit);
+  res.status(201).json(newDeposit);
 }
 
 export { getDeposits, getDepositById, postDeposit };
